@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { nanoid } from 'nanoid';
 import { Btn, Title, FormStyle } from './Form.styled.js';
 import PropTypes from "prop-types";
 
 
-const ContactForm = ({ contacts, onSubmit }) => {
+const ContactForm = ({ onSubmit }) => {
   const [formData, setFormData] = useState({ name: '', number: '' });
 
   const handleChange = (event) => {
@@ -18,13 +18,7 @@ const ContactForm = ({ contacts, onSubmit }) => {
       alert('Please enter a valid name and phone number.');
       return;
     }
-    const isContactExists = contacts.some(
-        (contact) => contact.name.toLowerCase() === name.toLowerCase()
-    );
-    if (isContactExists){
-        alert ('Contact with this name already exists.');
-        return;
-    }
+
     const newContact = {
       name: name,
       number: number,
@@ -32,8 +26,7 @@ const ContactForm = ({ contacts, onSubmit }) => {
     };
 
     onSubmit(newContact);
-
-    setFormData({ name: '', number: '' });
+    setFormData({ name: '', number: '' }); // Wyczyść formularz po dodaniu kontaktu
   };
 
   return (
@@ -66,6 +59,5 @@ const ContactForm = ({ contacts, onSubmit }) => {
 export default ContactForm;
 
 ContactForm.propTypes = {
-  contacts: PropTypes.array.isRequired,
   onSubmit: PropTypes.func.isRequired,
 };
